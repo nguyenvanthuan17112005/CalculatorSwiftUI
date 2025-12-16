@@ -29,6 +29,7 @@ enum OperatorType{
 
 // MARK: - Main View
 struct Practice03View: View {
+    @State private var errorMessage: String? = nil
     @State private var number1: String = ""
     @State private var number2: String = ""
     @State private var selectedOperator: OperatorType? = nil
@@ -66,7 +67,12 @@ struct Practice03View: View {
             Text("Kết quả: \(resultText)")
                 .font(.headline)
                 .padding(.top, 8)
-            
+            //Error Message
+            if let error = errorMessage{
+                Text(error)
+                    .foregroundColor(.red)
+                    .font(.footnote)
+            }
             Spacer()
         }
         .onChange(of: number1) {
@@ -118,7 +124,14 @@ struct Practice03View: View {
         case .multiply:
             result = a * b
         case .divide:
-            result = b == 0 ? nil : a / b
+            if b == 0{
+                result = nil
+                errorMessage = "Lỗi phép chia cho 0"
+            }
+            else{
+                result = a / b
+            }
+                
         }
     }
     
